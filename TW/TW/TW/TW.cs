@@ -9,75 +9,75 @@ using Jypeli.Widgets;
 public class TW : PhysicsGame
 {
     Image taustaKuva = LoadImage("kentta");
-    GameObject Viholliset; 
+    GameObject Viholliset;
     //TODO LIST
     //KUN PAINAT NAPPIA VIHOLLISIA TULEE
     //vihollisa riittävä määrä
     //Toivottavasti joskus valmis =p
 
-    
+
     public override void Begin()
     {
-        
+        LuoAikaLaskuri();
         Level.Background.Image = taustaKuva;
         Level.Background.FitToLevel();
         SmoothTextures = false;
-        LuoViholliset();
         PhoneBackButton.Listen(ConfirmExit, "Lopeta peli");
         Keyboard.Listen(Key.Escape, ButtonState.Pressed, ConfirmExit, "Lopeta peli");
     }
     void LuoViholliset()
     {
         Viholliset = new GameObject(50, 50);
+        Viholliset.Position = new Vector(-400,350);
 
         List<Vector> polku = new List<Vector>() {
-            new Vector(50, -100),
-            new Vector(-100, 50),
-            new Vector(-250, -200)};
-
+            new Vector(-50,150),
+            new Vector(-280, 1-80),
+            new Vector(-130, -100),
+            new Vector(53, 100),
+            new Vector(0,290)};
         PathFollowerBrain aivot = new PathFollowerBrain(3, polku);
         Viholliset.Brain = aivot;
-        aivot.Active = true; 
-        
+        aivot.Active = true;
+
+        PiirraReittipisteet(polku);
 
         Viholliset.Image = LoadImage("VihollisenKuva");
         Viholliset.Shape = Shape.Circle;
-        
-        Add(Viholliset); 
-        
+
+        Add(Viholliset);
+
     }
-    DoubleMeter alaspainLaskuri;
-   Timer aikaLaskuri;
+
+    private void PiirraReittipisteet(List<Vector> polku)
+    {
+        foreach (var wp in polku)
+        {
+            var tappa = new GameObject(10, 10);
+            tappa.Position = wp;
+            Add(tappa, 1);
+        }
+    }
+
+    Timer aikaLaskuri;
 
     void LuoAikaLaskuri()
-{
-    alaspainLaskuri = new DoubleMeter(30);
-    
-    aikaLaskuri = new Timer();
-    aikaLaskuri.Interval = 0.1;
-    aikaLaskuri.Timeout += LaskeAlaspain;
-    aikaLaskuri.Start();
-
-    Label aikaNaytto = new Label();
-    aikaNaytto.TextColor = Color.White;
-    aikaNaytto.DecimalPlaces = 1;
-    aikaNaytto.BindTo(alaspainLaskuri);
-    Add(aikaNaytto);
-}
-
-    void LaskeAlaspain()
     {
-    alaspainLaskuri.Value -= 0.1;
 
-    if (alaspainLaskuri.Value <= 0)
-   
-        MessageDisplay.Add("Aika loppui...");
-        aikaLaskuri.Stop();
+
+        aikaLaskuri = new Timer();
+        aikaLaskuri.Interval = 1.0;
+        aikaLaskuri.Timeout += LuoViholliset;
+        aikaLaskuri.Start();
+
+
     }
-        
-    
 
-    
-    
-  }
+
+
+
+
+
+
+}
 
