@@ -24,11 +24,11 @@ public class TW : PhysicsGame
     void LuoViholliset()
     {
         Viholliset = new GameObject(20, 20);
-   
-        List<Vector> polku = new List<Vector>();
-        polku.Add( new Vector(-50, -100) );
-        polku.Add( new Vector(-100, 50)  );
-        polku.Add( new Vector(-250, -200));
+
+        List<Vector> polku = new List<Vector>() {
+            new Vector(-50, -100),
+            new Vector(-100, 50),
+            new Vector(-250, -200)};
 
         PathFollowerBrain aivot = new PathFollowerBrain(3, polku);
         Viholliset.Brain = aivot;
