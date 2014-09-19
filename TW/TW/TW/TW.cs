@@ -8,15 +8,19 @@ using Jypeli.Widgets;
 
 public class TW : PhysicsGame
 {
-    Image taustaKuva = LoadImage("kenttä");
+    Image taustaKuva = LoadImage("kentta");
     GameObject Viholliset; 
     //TODO LIST
     //KUN PAINAT NAPPIA VIHOLLISIA TULEE
-    //SAKU NE GRAFFAT  
+    //vihollisa riittävä määrä
+    //Toivottavasti joskus valmis =p
+
     
     public override void Begin()
     {
+        
         Level.Background.Image = taustaKuva;
+        Level.Background.FitToLevel();
         LuoViholliset();
         PhoneBackButton.Listen(ConfirmExit, "Lopeta peli");
         Keyboard.Listen(Key.Escape, ButtonState.Pressed, ConfirmExit, "Lopeta peli");
@@ -26,7 +30,7 @@ public class TW : PhysicsGame
         Viholliset = new GameObject(20, 20);
 
         List<Vector> polku = new List<Vector>() {
-            new Vector(-50, -100),
+            new Vector(50, -100),
             new Vector(-100, 50),
             new Vector(-250, -200)};
 
