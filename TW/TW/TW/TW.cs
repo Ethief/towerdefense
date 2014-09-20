@@ -12,6 +12,7 @@ public class TW : PhysicsGame
     GameObject Viholliset;
     List<Label> valikonKohdat;
     List<Image> tasot;
+    List<int> wave; //lista vain luotu
     //TODO LIST
     //KUN PAINAT NAPPIA VIHOLLISIA TULEE
     //vihollisa riittävä määrä
@@ -26,6 +27,7 @@ public class TW : PhysicsGame
         IsMouseVisible = true;
         valikko();
         
+        
         PhoneBackButton.Listen(ConfirmExit, "Lopeta peli");
         Keyboard.Listen(Key.Escape, ButtonState.Pressed, ConfirmExit, "Lopeta peli");
     }
@@ -39,8 +41,14 @@ public class TW : PhysicsGame
             new Vector(-280, 1-80),
             new Vector(-130, -100),
             new Vector(53, 100),
-            new Vector(0,290)};
-        PathFollowerBrain aivot = new PathFollowerBrain(3, polku);
+            new Vector(0,290),
+            new Vector(-70,290),
+            new Vector(0,330),
+            new Vector(220,330),
+            new Vector(210,-110),
+            new Vector(-150,-335),
+            new Vector(300,-335)};
+        PathFollowerBrain aivot = new PathFollowerBrain(2,polku);
         Viholliset.Brain = aivot;
         aivot.Active = true;
 
@@ -103,16 +111,17 @@ public class TW : PhysicsGame
     }
     void playmode()
     {
-        ClearAll();
-        Widget alusta = new Widget(new HorizontalLayout());
-        Add(alusta);
-        for (int i = 0; i < tasot.Count; i++)
-        {
-            Widget paikka = new Widget(tasot[i]);
-            alusta.BorderColor = Color.White;
-            alusta.Add(paikka);
-        }
-        
+        //TASOVALIKKO EI VIELÄ TOIMI OTIN SEN POIS VÄLIAIKAISESTI, ETTÄ VOIDAAN TEHDÄ PELIÄ!!!
+        //ClearAll();
+        //Widget alusta = new Widget(new HorizontalLayout());
+        //Add(alusta);
+        //for (int i = 0; i < tasot.Count; i++)
+        //{
+            //Widget paikka = new Widget(tasot[i]);
+            //alusta.BorderColor = Color.White;
+            //alusta.Add(paikka);
+        //}
+        luotaso1();
 
     }
     void arcademode()
@@ -145,8 +154,24 @@ public class TW : PhysicsGame
         Level.Background.Image = taustaKuva;
         Level.Background.FitToLevel();
         SmoothTextures = false;
+        Keyboard.Listen(Key.Escape, ButtonState.Pressed, takaisinvalikkoon, "");
     }
 
+    void takaisinvalikkoon()
+    {
+        ClearAll();
+        valikko();
+    }
+    void luomaali()
+    {
+        Vector paikka= new Vector (300,-335);
+        PhysicsObject maali = new PhysicsObject(90,90);
+        maali.Color = Color.DarkCyan;
+        maali.Position=paikka;
+        Add(maali);
+        
+    }
+    
 
 
 
