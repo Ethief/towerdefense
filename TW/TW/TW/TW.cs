@@ -20,7 +20,7 @@ public class TW : PhysicsGame
     //SAKU TEE PIKKUKUVA TASOSTA, JOTTA SEN VOI LAITTAA TASOVALIKKOON!!!
     //EI TOIMI VIELÄ EA SÄÄTELEE VALIKKOA JA EI TEXTUUREJA TASOLISTASSA!!!
     //ÄLÄ MUUTA KOODIA MITENKÄÄN!!!!!!!!!!! TV.VEISSULI
-
+    //lisää turretteija
 
     public override void Begin()
     {
@@ -52,7 +52,7 @@ public class TW : PhysicsGame
         Viholliset.Brain = aivot;
         aivot.Active = true;
 
-        PiirraReittipisteet(polku);
+        //PiirraReittipisteet(polku);
 
         Viholliset.Image = LoadImage("VihollisenKuva");
         Viholliset.Shape = Shape.Circle;
@@ -61,15 +61,15 @@ public class TW : PhysicsGame
 
     }
 
-    private void PiirraReittipisteet(List<Vector> polku)
-    {
-        foreach (var wp in polku)
-        {
-            var tappa = new GameObject(10, 10);
-            tappa.Position = wp;
-            Add(tappa, 1);
-        }
-    }
+    //private void PiirraReittipisteet(List<Vector> polku)
+    
+        //foreach (var wp in polku)
+        
+            //var tappa = new GameObject(10, 10);
+            //tappa.Position = wp;
+            //Add(tappa, 1);
+        
+    
 
     Timer aikaLaskuri;
 
