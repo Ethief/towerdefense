@@ -13,6 +13,7 @@ public class TW : PhysicsGame
     List<Label> valikonKohdat;
     List<Image> tasot;
     List<int> wave; //lista vain luotu
+    List<GameObject>eaonparas;
     //TODO LIST
     //KUN PAINAT NAPPIA VIHOLLISIA TULEE
     //vihollisa riittävä määrä
@@ -171,10 +172,16 @@ public class TW : PhysicsGame
         Add(maali);
         
     }
-    
 
+    Vector ammuvihollisia(Vector range, Weapon ase)
+    {
+
+        ase.Angle = Viholliset.Angle;
+
+    }
 
 
 
 }
+
 
