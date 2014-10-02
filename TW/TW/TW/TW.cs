@@ -12,6 +12,7 @@ public class TW : PhysicsGame
     GameObject Viholliset;
     List<Label> valikonKohdat;
     List<Image> tasot;
+    AssaultRifle perusase;
     List<int> wave; //lista vain luotu
     List<GameObject>eaonparas;
     //TODO LIST
@@ -34,7 +35,9 @@ public class TW : PhysicsGame
     }
     void LuoViholliset()
     {
+        eaonparas = new List<GameObject>();
         Viholliset = new GameObject(50, 50);
+        eaonparas.Add(Viholliset);
         Viholliset.Position = new Vector(-400,350);
 
         List<Vector> polku = new List<Vector>() {
@@ -73,7 +76,7 @@ public class TW : PhysicsGame
     
 
     Timer aikaLaskuri;
-
+    Timer aikalaskuri2;
     void LuoAikaLaskuri()
     {
 
@@ -123,7 +126,8 @@ public class TW : PhysicsGame
             //alusta.Add(paikka);
         //}
         luotaso1();
-
+        luomaali();
+        luoperustorni();
     }
     void arcademode()
     {
@@ -173,14 +177,43 @@ public class TW : PhysicsGame
         
     }
 
-    Vector ammuvihollisia(Vector range, Weapon ase)
+    bool ammuvihollisia(Vector range, Weapon ase)
     {
-
-        ase.Angle = Viholliset.Angle;
+        if (eaonparas.Count > 0)
+        {
+            GameObject muuttuja = eaonparas[0];
+            ase.Angle = muuttuja.Angle;
+            ase.Shoot();
+            
+            bool paluuarvo = true;
+            return paluuarvo;
+        }
+        return false;
+    }
+    void luoperustorni()
+    {
+        Vector juttu = new Vector(100,0);
+        perusase = new AssaultRifle(35,10);
+        perusase.FireRate = 1;
+        GameObject jokuli = new GameObject(40, 40);
+        jokuli.Position = juttu;
+        Add(jokuli);
+        jokuli.Add(perusase);
+        ajasta(juttu, perusase);
+    }
+    void ajasta(Vector range,Weapon ase)
+    {
+        aikalaskuri2 = new Timer();
+        aikalaskuri2.Interval = 1.0;
+        aikalaskuri2.Timeout += vvvkkk;
+        aikalaskuri2.Start();
 
     }
-
-
+    void vvvkkk()
+    {
+        Vector j = new Vector(0,0);
+        ammuvihollisia(j, perusase);
+    }
 
 }
 
