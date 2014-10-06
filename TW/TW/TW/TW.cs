@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Jypeli;
 using Jypeli.Assets;
@@ -9,12 +9,27 @@ using Jypeli.Widgets;
 public class TW : PhysicsGame
 {
     Image taustaKuva = LoadImage("kentta");
+
+    // TODO: (JR) "Viholliset" muuttujan ei kannata olla enää luokkamuuttuja, kun 
+    //  siinä on vain ihan viimeksi luotu vihollinen. Nimi on myös väärä,
+    //  sillä täällä on vain yksi vihollinen-
     GameObject Viholliset;
     List<Label> valikonKohdat;
     List<Image> tasot;
+
     AssaultRifle perusase;
     List<int> wave; //lista vain luotu
+
+    // TODO: (JR) Yksi tärkeimmistä asioista koodaamisessa on hyvä asioiden
+    //   nimeäminen. Ei ei olleenkaan näin :)
+    //  Pian teistä kukaan ei ole enää kärryillä mikä tämän muuttujan 
+    //   tarkoitus saati sisältö on. Käyttäkää aina mahdollisimman kuvaavaa
+    //   ja yksinkertaista muuttujan/aliohjelman nimeä.
+    //  Sellainen ihan elämää helpottava vinkki muuten, että kun viet kursorin
+    //   tuon "eaonparas" kohdalle, painat F2 ja annat uuden nimen, niin
+    //   Visual C# vaihtaa nimeä kaikissa paikoissa missä "eaonparas". Näppärää.
     List<GameObject>eaonparas;
+
     //TODO LIST
     //KUN PAINAT NAPPIA VIHOLLISIA TULEE
     //vihollisa riittävä määrä
@@ -33,9 +48,13 @@ public class TW : PhysicsGame
         PhoneBackButton.Listen(ConfirmExit, "Lopeta peli");
         Keyboard.Listen(Key.Escape, ButtonState.Pressed, ConfirmExit, "Lopeta peli");
     }
+    // TODO: (JR) LuoViholliset -> LuoVihollinen, eli nimeäminen! nimeäminen!
     void LuoViholliset()
     {
         eaonparas = new List<GameObject>();
+
+	// TODO: (JR) "Viholliset" -> "GameObject vihollinen", eli muuttuja 
+        //  paikalliseksi ja parempi nimi. (muista F2-uudelleenimeämiskikka)
         Viholliset = new GameObject(50, 50);
         eaonparas.Add(Viholliset);
         Viholliset.Position = new Vector(-400,350);
@@ -65,6 +84,12 @@ public class TW : PhysicsGame
 
     }
 
+    // TODO: (JR) Tämä kannattaa ottaa pois kommenteista. Riittää
+    //  kun koodia ei kutsuta (ei sitä silloin ajata). Tätä 
+    //  aliohjelmaa nimittäin tarvitaan taas kun lisäätte uusia
+    //  karttoja. TOinen juttu. /* ... */ eli ton "/*" ja  "*/" välissä
+    //  oleva on kommentti. Oli siinä sitten kuinka monta rivinvaihtoa tahansa.
+
     //private void PiirraReittipisteet(List<Vector> polku)
     
         //foreach (var wp in polku)
@@ -74,7 +99,7 @@ public class TW : PhysicsGame
             //Add(tappa, 1);
         
     
-
+    // TODO: (JR) Nimeäminen!, nimeen että mitä nämä ajastimet laskevat?
     Timer aikaLaskuri;
     Timer aikalaskuri2;
     void LuoAikaLaskuri()
@@ -181,10 +206,29 @@ public class TW : PhysicsGame
     {
         if (eaonparas.Count > 0)
         {
+            // TODO: (JR) Nimeäminen, mikä on muuttujassa?
+            //  Lisäksi tässä pitäisi kai etsiä asetta lähin
+            //  vihollinen? Pitää käyttää silmukkaa ja loopata
+            //  kaikki viholliset läpi pitäen samalla jossain
+            //  muuttujassa mikä oli se, jonka etäisyys 
+            //  aseeseen oli lyhin (ja mikä tuo etäisyys oli).
+            //  Vinkki: Vector.Distance(muuttuja.Position, ase.Position)
             GameObject muuttuja = eaonparas[0];
+
+            // TODO: (JR) muuttuja.Angle on se suunta mihin muuttujassa oleva
+            //  vihollinen osoittaa (eikä edes se mihin se on matkalla, 
+            //  vaan se miten päin se on ruudulla. Siitä ei voi päätellä
+            //  aseen suuntaa. Sen sijaan:
+            // Vector nuoliVihollisestaAseeseen = muuttuja.Position-ase.Position:
+            // ase.Angle = nuoliVihollisestaAseeseen.Angle;
             ase.Angle = muuttuja.Angle;
+
+            // TODO: (JR) Tästä puuttuu vissin tarkastus, että onko vihu jo
+            //  tarpeeksi lähellä. Voit käyttää if-ehtoa ja 
+            //  nuoliVihollisestaAseeseen.Magnitude:a tähän.
+       
             ase.Shoot();
-            
+
             bool paluuarvo = true;
             return paluuarvo;
         }
@@ -192,9 +236,13 @@ public class TW : PhysicsGame
     }
     void luoperustorni()
     {
+        // TODO: (JR) nimeäminen
         Vector juttu = new Vector(100,0);
         perusase = new AssaultRifle(35,10);
+        // TODO: (JR) Hmm.. Tää FireRaten asettaminen kannattaa jättää pois.
+        //  ihan sillä, että toi ajastin hoitaa jo tämän tulinopeuden.
         perusase.FireRate = 1;
+        // TODO: (JR) nimeäminen!
         GameObject jokuli = new GameObject(40, 40);
         jokuli.Position = juttu;
         Add(jokuli);
@@ -209,8 +257,10 @@ public class TW : PhysicsGame
         aikalaskuri2.Start();
 
     }
+    // TODO: (JR) NIMEÄMINEN!!!!
     void vvvkkk()
     {
+        // TODO: (JR) NIMEÄMINEN NIMEÄMINEN NIMEÄMINEN :D
         Vector j = new Vector(0,0);
         ammuvihollisia(j, perusase);
     }
