@@ -10,10 +10,10 @@ public class TW : PhysicsGame
 {
     Image taustaKuva = LoadImage("kentta");
 
-    
+    GameObject muuttuja;
     List<Label> valikonKohdat;
     List<Image> tasot;
-
+    Image turretlvl1 = LoadImage("turretlvl1");
     AssaultRifle perusase;
     List<int> wave; //lista vain luotu
 
@@ -33,7 +33,7 @@ public class TW : PhysicsGame
     {
         IsMouseVisible = true;
         valikko();
-        
+        vihollislistatykeille = new List<GameObject>();
         
         PhoneBackButton.Listen(ConfirmExit, "Lopeta peli");
         Keyboard.Listen(Key.Escape, ButtonState.Pressed, ConfirmExit, "Lopeta peli");
@@ -41,7 +41,7 @@ public class TW : PhysicsGame
     
     void luovihollinen()
     {
-        vihollislistatykeille = new List<GameObject>();
+        
 
 	
         GameObject vihollinen = new GameObject(50, 50);
@@ -191,7 +191,7 @@ public class TW : PhysicsGame
         
     }
 
-    bool ammuvihollisia(Vector range, Weapon ase)
+    bool ammuvihollisia(Vector range, Weapon ase, PhysicsObject ammus)
     {
         if (vihollislistatykeille.Count > 0)
         {
@@ -203,7 +203,7 @@ public class TW : PhysicsGame
             //  aseeseen oli lyhin (ja mikä tuo etäisyys oli).
             //  Vinkki: Vector.Distance(muuttuja.Position, ase.Position)
 
-            GameObject muuttuja = vihollislistatykeille[0];
+            muuttuja = vihollislistatykeille[0];
             foreach (GameObject muuttuja2 in vihollislistatykeille)
             {
                 double varasto = Vector.Distance(muuttuja2.Position, ase.Position);
@@ -228,7 +228,8 @@ public class TW : PhysicsGame
             //  nuoliVihollisestaAseeseen.Magnitude:a tähän.
             if (nuoliVihollisestaAseeseen.Magnitude < range.Magnitude)
             {
-                ase.Shoot();
+                ase.ProjectileCollision = AmmusOsui;
+                ammus=ase.Shoot();
             }
             
 
@@ -240,15 +241,16 @@ public class TW : PhysicsGame
     void luoperustorni()
     {
         // TODO: (JR) nimeäminen
-        Vector juttu = new Vector(100,0);
+        Vector testivektori = new Vector(100,0);
         perusase = new AssaultRifle(35,10);
         
         // TODO: (JR) nimeäminen!
-        GameObject jokuli = new GameObject(40, 40);
-        jokuli.Position = juttu;
-        Add(jokuli);
-        jokuli.Add(perusase);
-        ajasta(juttu, perusase);
+        GameObject tykki1 = new GameObject(40, 40);
+        tykki1.Position = testivektori;
+        tykki1.Image = turretlvl1;
+        Add(tykki1);
+        tykki1.Add(perusase);
+        ajasta(testivektori, perusase);
     }
     void ajasta(Vector range,Weapon ase)
     {
@@ -256,16 +258,28 @@ public class TW : PhysicsGame
         aikalaskuri2.Interval = 1.0;
         aikalaskuri2.Timeout += vvvkkk;
         aikalaskuri2.Start();
+        aikalaskuri2.Enabled = true;
+
 
     }
     // TODO: (JR) NIMEÄMINEN!!!!
     void vvvkkk()
     {
+        PhysicsObject tyhja = new PhysicsObject(30, 30);
         // TODO: (JR) NIMEÄMINEN NIMEÄMINEN NIMEÄMINEN :D
         Vector j = new Vector(1321,1321);
-        ammuvihollisia(j, perusase);
+        bool kokeilu=ammuvihollisia(j, perusase,tyhja);
+        if (kokeilu == true)
+        {
+            kokeilu = ammuvihollisia(j, perusase,tyhja);
+        }
     }
-
+    void AmmusOsui(PhysicsObject ammus, PhysicsObject kohde)
+    {
+        
+        ammus.Destroy();
+        muuttuja.Destroy();
+    }
 }
 
 
