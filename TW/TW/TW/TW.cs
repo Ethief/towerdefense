@@ -213,13 +213,18 @@ public class TW : PhysicsGame
                     muuttuja = muuttuja2;
                 }
             }
-
             // TODO: (JR) muuttuja.Angle on se suunta mihin muuttujassa oleva
             //  vihollinen osoittaa (eikä edes se mihin se on matkalla, 
             //  vaan se miten päin se on ruudulla. Siitä ei voi päätellä
             //  aseen suuntaa. Sen sijaan:
+            // tahtain seuraamaan tykin ampumista
+            //tahtain on väliaikainen juttu
+
             Vector nuoliVihollisestaAseeseen = muuttuja.Position - ase.Position;
             ase.Angle = nuoliVihollisestaAseeseen.Angle;
+            GameObject tahtain = new GameObject(20, 20);
+            
+            Add (tahtain);
             
             //ase.Angle = muuttuja.Angle;
 
